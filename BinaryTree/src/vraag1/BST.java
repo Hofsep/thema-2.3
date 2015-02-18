@@ -94,24 +94,57 @@ public class BST<E extends Comparable<E>> extends AbstractTree<E> {
 	{
 		TreeNode<E> current = root;
 		Stack<TreeNode<E>> stack = new Stack<TreeNode<E>>();
-		while(current != null || stack != null)
-		{
-			if(current !=null)
-			{
+		while(current != null || stack != null){
+			
+			if(current !=null){
 				stack.push(current);
 				current = current.left;
 				System.out.println(current.element + "");
 			}
-			else
-			{
+			else{
 				current = stack.pop();
 				System.out.println(current.element + "");
-				if(current !=null)
-				{
+				if(current !=null){
 					current = current.right;
 					System.out.println(current.element + "");
 				}
 			}
+		}
+	}
+	
+	public void preorder(TreeNode<E> root){
+		
+		TreeNode<E> current = root;
+		Stack<TreeNode<E>> stack = new Stack<TreeNode<E>>();
+		
+		while(current != null || stack != null){
+
+			if(current != null){
+				stack.push(current);
+				System.out.println( current.element + " ");
+				
+				current = current.left;
+				
+			} else {
+				current = stack.pop();
+				current = current.right;
+				if(current != null){
+					stack.push(current);
+					System.out.println( current.element + " ");
+					current = stack.pop();
+				}
+			}
+		}
+	}
+	
+	public void postorder(TreeNode<E> root){
+		
+		TreeNode<E> current = root;
+		Stack<TreeNode<E>> stack = new Stack<TreeNode<E>>();
+		
+		while(current !=null || stack != null){
+			
+			
 		}
 	}
 	
