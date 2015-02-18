@@ -144,6 +144,15 @@ public class BST<E extends Comparable<E>> extends AbstractTree<E> {
 		
 		while(current !=null || stack != null){
 			
+			if(current != null){
+				stack.push(current);
+				current = current.left;
+			}
+			else {
+				current = stack.pop();
+				System.out.println(current.element + " ");
+				current = current.right;
+			}
 			
 		}
 	}
