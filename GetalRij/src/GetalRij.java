@@ -14,7 +14,7 @@ public class GetalRij {
 
 	private void vulArrayMetUniekeWaarden(int aantal, int max) {
 		// Vul een hulplijst met getallen 0, ..., max
-		ArrayList hulpLijst = new ArrayList( max );
+		ArrayList<Integer> hulpLijst = new ArrayList<Integer>( max );
 		for ( int i=0; i<max; i++){
 			hulpLijst.add( i );
 		}
@@ -29,19 +29,83 @@ public class GetalRij {
 	}
 	
 	public boolean zitErinA( int zoekWaarde ){
-		return false;
+		
+		boolean found = false;
+		int index = 0;
+		
+		while( index < getallen.length ){
+			if( getallen[index] == zoekWaarde ){
+				found = true;
+				System.out.println("FOUND");
+			}
+			index++;
+		}
+		
+		return found;
 	}
 
 	public boolean zitErinB( int zoekWaarde ){
-		return false;
+		
+		boolean found = false;
+		int index = 0;
+		
+		while(index < getallen.length ){
+			if( getallen[index] == zoekWaarde ){
+				found = true;
+				System.out.println("FOUND");
+				break;
+			}
+			index++;
+		}
+		
+		return found;
 	}
 
 	public boolean zitErinC( int zoekWaarde ){
-		return false;
+			
+		boolean found = false;
+		int index;
+		
+		if(zoekWaarde >= getallen.length){
+			index = getallen.length-1;
+		} else {
+			index = zoekWaarde;
+		}
+		
+		while(!found && index >= 0){
+			if( getallen[index] == zoekWaarde ){
+				found = true;
+				System.out.println("FOUND");
+			}
+			index--;
+		}
+		
+		return found;
 	}
 
 	public boolean zitErinD( int zoekWaarde ){
-		return false;
+		
+		boolean found = false;
+		int min =0;
+		int max =getallen.length-1;
+		
+		while(max>=min){
+			
+			int mid = (min+max)/2;
+			if(getallen[mid] == zoekWaarde){
+				found = true;
+				System.out.println("FOUND");
+				break;
+			}
+			else if (zoekWaarde<getallen[mid]) { 
+				max = mid-1;
+			}
+			else {
+				min = mid+1;
+			}
+			
+		}
+		return found;
 	}
 	
 	public void sorteer(){
