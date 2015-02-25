@@ -15,6 +15,7 @@ public class TestFileReader extends TestCase {
 		super(arg0);
 	}
 
+	@SuppressWarnings("resource")
 	private DecisionTree buildTree(){
 		Node iroot = null;
 		File resultsFile = makeAbsoluteFilename(RESULTS_FILE);
