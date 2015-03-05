@@ -1,5 +1,6 @@
 package ttt;
 
+import java.util.ArrayList;
 import java.util.Random;
 class TicTacToe {
 	
@@ -150,6 +151,21 @@ class TicTacToe {
 		//				  0,1  1,1  2,1		1
 		//				  0,2  1,2  2,2	
 		// 1= board[1][1]
+		
+		for(int i = 0; i<board.length; i++){
+			ArrayList<Integer> horizontal = new ArrayList<Integer>();
+			horizontal.add(board[i][0]);
+			horizontal.add(board[i][1]);
+			horizontal.add(board[i][2]);
+			
+			for(Integer temp: horizontal){
+				if(horizontal.get(temp) == side){
+					return true;
+				}
+			}
+		}
+		
+		
 		
 		if(board[1][1] == side){
 			if(board[0][0] == side && board[2][2] == side){
