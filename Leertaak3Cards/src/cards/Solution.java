@@ -1,11 +1,17 @@
 package cards;
+//import java.util.Iterator;
 import java.util.Stack;
 /** the solution is a sequence of cards placed on the board according to the card positions
     example without border
 */
 public class Solution extends Stack<Candidate>
 {
-    // The board is an 2D array.
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	// The board is an 2D array.
 	// 0123
 	// 0..-.
 	// 1---.
@@ -20,7 +26,7 @@ public class Solution extends Stack<Candidate>
 	private int[] column = { 2, 0, 1, 2, 1, 2, 3, 2 };
 	//  indices of adjacent cards in the solution.
 	//                 0   1  2   3   4    5     6    7   
-	int [] [] check = {{},{},{1},{0},{2},{3,4},{5,6},{7}}; 
+	//int [] [] check = {{},{},{1},{0},{2},{3,4},{5,6},{7}}; 
 	
 	
 	public Solution(){
@@ -33,8 +39,38 @@ public class Solution extends Stack<Candidate>
 	 // @return Boolean indicating if cardChar is found.
 	 // can be used in the methods fits and isCorrect
 	private boolean bordersCard(int row, int column, char cardChar){
-	    //TODO
-		return true;
+
+		boolean found = false;
+		//make list for all 4 sides (north, south, west, east)
+		Candidate [] temp = new Candidate[4];
+		
+		//check North and add to list (temp)
+		if(row-1 > -1){
+			temp[0] = board[row-1][column];
+		}
+		
+		//check South and add to list (temp)
+		if(row+1<4){
+			temp[1] = board[row+1][column];
+		}
+		
+		//check West and add to list (temp)
+		if(column-1>-1){
+			temp[2] = board[row][column-1];
+		}
+		
+		//check East and add to list (temp)
+		if(column+1<4){
+			temp[3] = board[row][column+1];
+		}
+		
+		//go through loop to find if they are matching with cardChar
+		for(int i=0;i<4;i++){
+			if(temp[i] != null && cardChar == temp[i].getCardChar()){
+				found = true;
+			}
+		}
+		return found;
     }
 	
 	
@@ -46,8 +82,9 @@ public class Solution extends Stack<Candidate>
 	 * next free position.
 	 */
 	public boolean fits(Candidate candidate){ 
-		//TODO
-	    return true;
+		
+		boolean fits =  !bordersCard(row[size()], column[size()], candidate.getCardChar());
+		return fits;
     }
 
 	public void record(Candidate candidate)
@@ -60,19 +97,21 @@ public class Solution extends Stack<Candidate>
 
 	public boolean complete()
 	{
-		return this.size()==8;
+		return size()==8;
 	}
 
 	public void show()
 	{
-		System.out.println(this); 
+		if(isCorrect()){
+			System.out.println(this); 
+		}
 	}
 
 	public Candidate eraseRecording()
 	{
-		int i=this.size()-1;           // i= index of the candidate that is removed from this Stack;
+		int i=size()-1;           // i= index of the candidate that is removed from this Stack;
 		board[row[i]][column[i]]=null; // remove candidate from board
-		return this.pop();
+		return pop();
     }
 	
 	// can be used in method isCorrect
@@ -95,8 +134,19 @@ public class Solution extends Stack<Candidate>
 	 */
 	// uses methods borderCard and mustBeAdjacent to
 	private boolean isCorrect() {
-         //TODO
-         return true;
+		
+		for(int i = 0; i < size(); i++) {
+			//Current candidate
+			Candidate tempCandidate = board[row[i]][column[i]];
+			//Card that needs to be adjacent (Aangrenzende)
+			char next2temp = mustBeAdjacentTo(tempCandidate.getCardChar());
+			//Card doesn't `adjacent` specific card
+			if(next2temp != '?' && !bordersCard(row[i], column[i], next2temp)) {
+				return false;
+			}
+		}
+		
+		return true;
      }     
             
 	
@@ -104,8 +154,23 @@ public class Solution extends Stack<Candidate>
 	 * @return a representation of the solution on the board
 	 */
      public String toString(){
-	    //TODO
-	    return "";
+	    
+    	 String result ="";
+    	 
+    	 //taking the r for rows and c for columns
+    	 for(int r = 0; r<4; r++){
+    		 for(int c = 0; c<4; c++){
+    			 
+    			 if(board[r][c] != null){
+    				 result += "|"+board[r][c].getCardChar() + "|";
+    			 } else {
+    				 result += "|_|";
+    			 } 
+    		 }
+    		 result += "\n";
+    	 }
+    	 
+    	 return result;
 	}    
 
 }

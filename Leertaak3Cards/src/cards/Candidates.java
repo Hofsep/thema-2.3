@@ -4,6 +4,11 @@ import java.util.Iterator;
 public class Candidates extends LinkedList<Candidate>
 {
 
+/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 public Candidates()
 {
     super.add(new Candidate('A',2)); //Ace
@@ -35,7 +40,7 @@ public void add (int index, Candidate candidate) //overwrites super.add
 
 public String toString()
 {
-    Iterator it=iterator(); 
+    Iterator<?> it=iterator(); 
     String rS="";
     while (it.hasNext())
     {
