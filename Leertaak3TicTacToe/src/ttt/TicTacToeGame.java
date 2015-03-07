@@ -86,8 +86,6 @@ class TicTacToe {
 					reply = chooseMove(opponent); 	
 					place(row, col, EMPTY); // undo move
 					if( (side == COMPUTER && reply.val > value) || (side == HUMAN && reply.val < value) ){ 
-						// beurt pc als value groter is dan opponent value geef beste zet
-						// beurt mens opp valeu kleiner dan pc value geef beste zet
 						bestRow = row;
 						bestColumn = col;
 						value = reply.val;
@@ -150,50 +148,47 @@ class TicTacToe {
 		//Vertical		= 0,0  1,0  2,0		
 		//				  0,1  1,1  2,1		1
 		//				  0,2  1,2  2,2	
-		// 1= board[1][1]
-		
+
 		for(int i = 0; i<board.length; i++){
-			ArrayList<Integer> horizontal = new ArrayList<Integer>();
-			horizontal.add(board[i][0]);
-			horizontal.add(board[i][1]);
-			horizontal.add(board[i][2]);
+			ArrayList<Boolean> horizontal = new ArrayList<Boolean>();
+			horizontal.add(board[i][0]==side);
+			horizontal.add(board[i][1]==side);
+			horizontal.add(board[i][2]==side);
 			
-			for(Integer temp: horizontal){
-				if(horizontal.get(temp) == side){
-					return true;
+			ArrayList<Boolean> vertical = new ArrayList<Boolean>();
+			vertical.add(board[0][i]==side);
+			vertical.add(board[0][i]==side);
+			vertical.add(board[0][i]==side);
+			
+			int count1 = 0;
+			for(int c=0; c<horizontal.size(); c++){
+				if(horizontal.get(c)){
+					count1++;
 				}
 			}
+			if(count1 == 3){
+				return true;
+			}
+			int count2 = 0;
+			for(int c=0; c<horizontal.size(); c++){
+				if(horizontal.get(c)){
+					count2++;
+				}
+			}
+			if(count2 == 3){
+				return true;
+			}
+			
 		}
-		
-		
-		
+
 		if(board[1][1] == side){
 			if(board[0][0] == side && board[2][2] == side){
 				return true;
-			}else if (board[1][0] == side && board[1][2] == side){
-				return true;
-			}else if (board[0][1] == side && board[2][1] == side){
-				return true;
-			}else if (board[2][0] == side && board[0][2] == side){
+			}else if(board[2][0] == side && board[0][2] == side){
 				return true;
 			}
 		}
-		
-		if(board[0][0] == side){
-			if (board[0][1] == side && board[0][2] == side){
-				return true;
-			}else if(board[1][0] == side && board[2][0] == side){
-				return true;
-			}
-		}
-		
-		if(board[2][2] == side){
-			if (board[2][1] == side && board[2][0] == side){
-				return true;
-			}else if(board[1][2] == side && board[0][2] == side){
-				return true;
-			}
-		}
+
 		return false;
     }
 
