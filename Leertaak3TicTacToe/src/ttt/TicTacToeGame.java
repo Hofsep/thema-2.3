@@ -140,45 +140,32 @@ class TicTacToe {
 	// Returns whether 'side' has won in this position
 	private boolean isAWin( int side ) {
 		//checks if side has 3 in a row and return true for the winning side.
-		//Diagonal 		= 0,0  1,1  2,2 	1
-		//				  0,2  1,1  2,0		1
+		//Diagonal 		= 0,0  1,1  2,2 	
+		//				  0,2  1,1  2,0		
 		//Horizontal 	= 0,0  0,1  0,2		
-		//				  1,0  1,1  1,2		1
+		//				  1,0  1,1  1,2		
 		//				  2,0  2,1  2,2		
 		//Vertical		= 0,0  1,0  2,0		
-		//				  0,1  1,1  2,1		1
+		//				  0,1  1,1  2,1		
 		//				  0,2  1,2  2,2	
 
 		for(int i = 0; i<board.length; i++){
+			//array for 3 of a kind horizontal
 			ArrayList<Boolean> horizontal = new ArrayList<Boolean>();
 			horizontal.add(board[i][0]==side);
 			horizontal.add(board[i][1]==side);
 			horizontal.add(board[i][2]==side);
-			
+			//array for 3 of a kind vertical
 			ArrayList<Boolean> vertical = new ArrayList<Boolean>();
 			vertical.add(board[0][i]==side);
-			vertical.add(board[0][i]==side);
-			vertical.add(board[0][i]==side);
-			
-			int count1 = 0;
-			for(int c=0; c<horizontal.size(); c++){
-				if(horizontal.get(c)){
-					count1++;
-				}
-			}
-			if(count1 == 3){
+			vertical.add(board[1][i]==side);
+			vertical.add(board[2][i]==side);
+			//check if horizontal or vertical has a filled array & contains no False
+			if( horizontal.size()==3 && !(horizontal.contains(Boolean.FALSE)) ||
+					vertical.size()==3 && !(vertical.contains(Boolean.FALSE)) ){
 				return true;
 			}
-			int count2 = 0;
-			for(int c=0; c<horizontal.size(); c++){
-				if(horizontal.get(c)){
-					count2++;
-				}
-			}
-			if(count2 == 3){
-				return true;
-			}
-			
+				
 		}
 
 		if(board[1][1] == side){
