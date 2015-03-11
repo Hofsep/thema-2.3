@@ -11,6 +11,7 @@ public class SnelheidOefening {
 		
 		GetalRij gr = new GetalRij( 300000, 400000);
 		System.out.println("Making the array took " + ((tijd() - making)/1000) + " seconds");
+		gr.sorteer();
 		
 		long a = tijd();
 		gr.zitErinA(86425);
@@ -22,7 +23,7 @@ public class SnelheidOefening {
 		System.out.print("Method B searching time = " + (tijd()-b) + " milliseconds");
 		System.out.println();
 		
-		gr.sorteer();
+		
 		long c = tijd();
 		gr.zitErinC(86425);
 		System.out.print("Method C searching time = " + (tijd()-c) + " milliseconds");

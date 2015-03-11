@@ -57,8 +57,8 @@ class TicTacToe {
     }
     
     // Find optimal move
-	private Best chooseMove( int side )
-	{
+	private Best chooseMove( int side ) {
+		
 		int opponent;              	// The other side
 		Best reply;           		// Opponent's best reply
 		int simpleEval;       		// Result of an immediate evaluation
@@ -72,7 +72,7 @@ class TicTacToe {
 		//implementeren m.b.v. recursie/backtracking
 		if(side == COMPUTER){
 			opponent = HUMAN;
-			value = HUMAN_WIN; //init value to the worst possible move(score)
+			value = HUMAN_WIN; 
 		}else{
 			opponent = COMPUTER;
 			value = COMPUTER_WIN;
@@ -112,8 +112,7 @@ class TicTacToe {
 
 
 	// Simple supporting routines
-	private void clearBoard( )
-	{
+	private void clearBoard( ) {
 		//go through each block and make them equals EMPTY ==2
 		
 		for(int row=0; row<board.length; row++){
@@ -138,7 +137,7 @@ class TicTacToe {
 	}
 
 	// Returns whether 'side' has won in this position
-	private boolean isAWin( int side ) {
+	public boolean isAWin( int side ) {
 		//checks if side has 3 in a row and return true for the winning side.
 		//Diagonal 		= 0,0  1,1  2,2 	
 		//				  0,2  1,1  2,0		
@@ -167,13 +166,10 @@ class TicTacToe {
 			}
 				
 		}
-
+		//checking 3 of a kind diagonally.. had to hardcode
 		if(board[1][1] == side){
-			if(board[0][0] == side && board[2][2] == side){
-				return true;
-			}else if(board[2][0] == side && board[0][2] == side){
-				return true;
-			}
+			if(board[0][0] == side && board[2][2] == side){	return true;}
+			else if(board[2][0] == side && board[0][2] == side){ return true;}
 		}
 
 		return false;
@@ -191,7 +187,7 @@ class TicTacToe {
 	}
 
 	// Compute static value of current position (win, draw, etc.)
-	private int positionValue( )
+	public int positionValue( )
 	{
 		if(isAWin(COMPUTER)){
 			return COMPUTER_WIN;

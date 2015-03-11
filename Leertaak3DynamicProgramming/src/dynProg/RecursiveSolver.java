@@ -4,6 +4,13 @@ package dynProg;
 public class RecursiveSolver implements Solver {
 	
 	private boolean check = false;
+	
+	public static void main(String[] args){
+		
+		RecursiveSolver rs = new RecursiveSolver();
+		rs.solve(new int[]{3,5,7,9,11}, 17);
+
+	}
 
 	@Override
 	public boolean solve(int[] numbers, int sum) {
@@ -14,10 +21,8 @@ public class RecursiveSolver implements Solver {
 		}
 		
 		if(som == sum){
-			System.out.println("true");
+	//		System.out.println("true");
 			check = true;
-	//		} else if(som<sum){ 
-	//			System.out.println("false");
 		} else {
 			
 				for(int i=0; i<numbers.length; i++){

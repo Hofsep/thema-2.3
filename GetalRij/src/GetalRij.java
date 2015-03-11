@@ -36,7 +36,7 @@ public class GetalRij {
 		while( index < getallen.length ){
 			if( getallen[index] == zoekWaarde ){
 				found = true;
-				System.out.println("FOUND");
+				System.out.println("FOUND at index " + index);
 			}
 			index++;
 		}
@@ -52,7 +52,7 @@ public class GetalRij {
 		while(index < getallen.length ){
 			if( getallen[index] == zoekWaarde ){
 				found = true;
-				System.out.println("FOUND");
+				System.out.println("FOUND at index " + index);
 				break;
 			}
 			index++;
@@ -75,7 +75,7 @@ public class GetalRij {
 		while(!found && index >= 0){
 			if( getallen[index] == zoekWaarde ){
 				found = true;
-				System.out.println("FOUND");
+				System.out.println("FOUND at index " + index);
 			}
 			index--;
 		}
@@ -94,7 +94,7 @@ public class GetalRij {
 			int mid = (min+max)/2;
 			if(getallen[mid] == zoekWaarde){
 				found = true;
-				System.out.println("FOUND");
+				System.out.println("FOUND at index " + mid);
 				break;
 			}
 			else if (zoekWaarde<getallen[mid]) { 
@@ -109,7 +109,7 @@ public class GetalRij {
 	}
 	
 	public void sorteer(){
-		Arrays.sort( getallen);
+		Arrays.sort(getallen);
 	}
 	
 	public void print(){
