@@ -1,43 +1,42 @@
 package dynProg;
 
-
 public class RecursiveSolver implements Solver {
-	
-	private boolean check = false;
+
+	boolean check = false;
 	
 	public static void main(String[] args){
-		
 		RecursiveSolver rs = new RecursiveSolver();
-		rs.solve(new int[]{3,5,7,9,11}, 17);
-
+		if(rs.solve( new int[]{3,5,7,9,11}, 17 ) ){
+			System.out.println("Succesfully finished!");
+		} else {
+			System.out.println("Not Possible..");
+		}
 	}
-
+	
 	@Override
 	public boolean solve(int[] numbers, int sum) {
 
-		int som = 0;
-		for(int i=0; i<numbers.length; i++){
-			som+= numbers[i];
+		// get the sum of everything in array
+		int arraySum = 0;
+		for (int i = 0; i < numbers.length; i++) {
+			arraySum += numbers[i];
 		}
-		
-		if(som == sum){
-	//		System.out.println("true");
+		// if the sum calculated in array equals to sum, return true
+		if (arraySum == sum) {
 			check = true;
 		} else {
-			
-				for(int i=0; i<numbers.length; i++){
-						int[] tempArray = new int[numbers.length-1];
-						for(int j=0; j<numbers.length-1; j++){
-							if(numbers[i]!=numbers[j]){
-								tempArray[j] = numbers[j];
-							}
-						}
-						
-						solve(tempArray, sum);
+			// remove a value and make a copy array without that value
+			for (int i = 0; i < numbers.length; i++) {
+				int[] tempArray = new int[numbers.length - 1];
+				for (int j = 0; j < numbers.length - 1; j++) {
+					if (numbers[i] != numbers[j]) {
+						tempArray[j] = numbers[j];
+					}
 				}
-				
+				// try recursion with the array copy and sum
+				solve(tempArray, sum);
+			}
 		}
 		return check;
 	}
-	
 }
