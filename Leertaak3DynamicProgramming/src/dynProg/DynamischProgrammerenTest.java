@@ -2,7 +2,9 @@ package dynProg;
 
 import org.junit.*;
 import static org.junit.Assert.*;
-
+import dynProg.RecursiveSolver;
+import dynProg.TopDownSolver;
+import dynProg.BottomUpSolver;
 
 public class DynamischProgrammerenTest {
  	int[] numbers = null;
