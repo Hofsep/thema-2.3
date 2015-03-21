@@ -3,8 +3,7 @@ package huffman;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Stack;
 
 
 
@@ -81,7 +80,23 @@ public class HuffmanTree
 	  */
 	 public int getChar( String code )
 	 {
-	     // TODO = opdracht           
+	     // TODO = opdracht  
+		 HuffNode parent = root;
+		 int codeLength = code.length();
+		 for (int i = 0; i < codeLength; i++)
+		 {
+			// break if there are no parents present
+			if (parent == null) break;
+
+			char c = code.charAt(i);
+			if (c == '0')
+				// take left
+				parent = parent.left;
+			else
+				// take right
+				parent = parent.right;
+		 }
+		 return parent == null ? ERROR : parent.value;
 	 }
 	 
 	 /**
@@ -143,7 +158,7 @@ public class HuffmanTree
 	  */
 	 private void createTree( )
 	 {
-	     ArrayList<HuffNode> ar = new ArrayList<HuffNode>();
+	     Stack<HuffNode> ar = new Stack<HuffNode>();
 		 
 	     for( int i = 0; i <= BitUtils.DIFF_BYTES; i++ )
 	         if ( theCounts.getCount( i ) > 0 )
@@ -154,7 +169,25 @@ public class HuffmanTree
 	             ar.add( newNode );
 	         }
 	              
-	     // TODO = opdracht      
+	     // TODO = opdracht   
+	     theNodes[END] = new HuffNode(END, 1, null, null, null);
+			ar.push(theNodes[END]);
+
+			while (ar.size() > 1) {
+				// remove last 2 nodes
+				HuffNode left = ar.pop();
+				HuffNode right = ar.pop();
+				
+				// create a left and right parent
+				HuffNode newParent = new HuffNode(INCOMPLETE_CODE, left.weight + right.weight, left, right, null);
+				
+				// update the left and right nodes
+				left.parent = newParent;
+				right.parent = newParent;
+				
+				// place back on stack
+				ar.push(newParent);
+			}
 	     
 	     root = ar.remove(0);
 	 }
