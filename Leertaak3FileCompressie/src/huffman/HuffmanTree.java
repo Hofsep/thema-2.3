@@ -82,19 +82,13 @@ public class HuffmanTree
 	 {
 	     // TODO = opdracht  
 		 HuffNode parent = root;
-		 int codeLength = code.length();
-		 for (int i = 0; i < codeLength; i++)
+		 for (char c: code.toCharArray())
 		 {
 			// break if there are no parents present
 			if (parent == null) break;
 
-			char c = code.charAt(i);
-			if (c == '0')
-				// take left
-				parent = parent.left;
-			else
-				// take right
-				parent = parent.right;
+			if (c == '0') parent = parent.left; //take left
+			else parent = parent.right; //take right
 		 }
 		 return parent == null ? ERROR : parent.value;
 	 }
@@ -170,24 +164,26 @@ public class HuffmanTree
 	         }
 	              
 	     // TODO = opdracht   
+	     
+	     //create a new node at the end of array theNodes and push it on top of the stack
 	     theNodes[END] = new HuffNode(END, 1, null, null, null);
-			ar.push(theNodes[END]);
+	     ar.push(theNodes[END]);
 
-			while (ar.size() > 1) {
-				// remove last 2 nodes
-				HuffNode left = ar.pop();
-				HuffNode right = ar.pop();
-				
-				// create a left and right parent
-				HuffNode newParent = new HuffNode(INCOMPLETE_CODE, left.weight + right.weight, left, right, null);
-				
-				// update the left and right nodes
-				left.parent = newParent;
-				right.parent = newParent;
-				
-				// place back on stack
-				ar.push(newParent);
-			}
+		while (ar.size() > 1) {
+			// remove last 2 nodes
+			HuffNode left = ar.pop();
+			HuffNode right = ar.pop();
+			
+			// create a left and right parent
+			HuffNode newParent = new HuffNode(INCOMPLETE_CODE, left.weight + right.weight, left, right, null);
+			
+			// update the left and right nodes
+			left.parent = newParent;
+			right.parent = newParent;
+			
+			// place back on stack
+			ar.push(newParent);
+		}
 	     
 	     root = ar.remove(0);
 	 }
