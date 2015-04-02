@@ -117,37 +117,41 @@ public class OccupancyMap {
 	}
 	
 	public boolean mapDiscovered(){
-		
-		boolean checkAllCells = true;
-		int index = 0;
-		
-		for(int i = 0; i<grid.length; i++){
-			for(int j = 0; j < grid[i].length; j++){
-				index ++;
-			}
-		}
-		
-		ArrayList<Boolean> checkAll = new ArrayList<Boolean>(index);
-		
+		ArrayList<Character> empty = new ArrayList<Character>();
+		ArrayList<Character> first = new ArrayList<Character>();
+		int check = 0;
+		boolean discovered = true;
 		for(int i = 0; i < grid.length; i++){
 			for(int j = 0; j < grid[i].length; j++){
+				first.add(grid[i][j]);
 				if(grid[i][j] == EMPTY){
-					
-					if(grid[i-1][j] != UNKNOWN && grid[i+1][j] != UNKNOWN &&
-							grid[i][j-1] != UNKNOWN && grid[i][j+1] != UNKNOWN){
-						checkAll.add(true);
-					} else {
-						checkAll.add(false);
+					if(grid[i-1][j]==UNKNOWN || grid[i][j-1]==UNKNOWN)
+					{
+						empty.add('n');
 					}
 				}				
 			}
 		}
-		
-		if(!(checkAll.contains(false))){
-			checkAllCells = false;
+		for(int i=0;i < first.size();i++)
+		{
+			if(first.get(i)==UNKNOWN)
+			{
+				check++;
+			}
 		}
-		
-		return checkAllCells;
+		if(empty.contains(UNKNOWN))
+		{
+			discovered=true;
+		}
+		else if(check == first.size())
+		{
+			discovered=true;
+		}
+		else
+		{
+			discovered=false;
+		}
+		return discovered;
 	}
 
 	public int getCellDimension() {
