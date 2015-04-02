@@ -43,7 +43,6 @@ public class OccupancyMap {
 				grid[i][j] = UNKNOWN;
 			}
 		}
-
 		this.actionListenerList = new ArrayList<ActionListener>();
 
 
@@ -69,7 +68,7 @@ public class OccupancyMap {
 				drawLaserBeam(rx, ry, fx, fy, false);
 			}
 		}
-
+		
 		//paint robot position on grid
 		Position robotPos = environment.getRobot().getPlatform().getRobotPosition();
 		//environment.getRobot().readPosition(robotPos);
@@ -115,6 +114,40 @@ public class OccupancyMap {
 		for (ActionListener listener : actionListenerList) {
 			listener.actionPerformed(event);
 		}
+	}
+	
+	public boolean mapDiscovered(){
+		
+		boolean checkAllCells = true;
+		int index = 0;
+		
+		for(int i = 0; i<grid.length; i++){
+			for(int j = 0; j < grid[i].length; j++){
+				index ++;
+			}
+		}
+		
+		ArrayList<Boolean> checkAll = new ArrayList<Boolean>(index);
+		
+		for(int i = 0; i < grid.length; i++){
+			for(int j = 0; j < grid[i].length; j++){
+				if(grid[i][j] == EMPTY){
+					
+					if(grid[i-1][j] != UNKNOWN && grid[i+1][j] != UNKNOWN &&
+							grid[i][j-1] != UNKNOWN && grid[i][j+1] != UNKNOWN){
+						checkAll.add(true);
+					} else {
+						checkAll.add(false);
+					}
+				}				
+			}
+		}
+		
+		if(!(checkAll.contains(false))){
+			checkAllCells = false;
+		}
+		
+		return checkAllCells;
 	}
 
 	public int getCellDimension() {

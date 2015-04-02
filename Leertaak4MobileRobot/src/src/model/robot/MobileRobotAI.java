@@ -46,6 +46,12 @@ public class MobileRobotAI implements Runnable {
 		this.running = true;
 		double position[] = new double[3];
 		double measures[] = new double[360];
+		
+		boolean foundWall2Follow = false;
+		double distance;		// save the distance
+		int degree;				// save the degree robot is scanning
+		
+		
 		while (running) {
 			try {
 
@@ -66,8 +72,73 @@ public class MobileRobotAI implements Runnable {
 				result = input.readLine();
 				parseMeasures(result, measures);
 				map.drawLaserScan(position, measures);
+				
+				if(!foundWall2Follow){
+					distance = 100.0;
+					degree = 0;
+					// look at all the degree and save if the measurement is closer than
+					// the scanner is looking at
+					for(int i=0; i<360;i++){
+						if(measures[i]<distance){
+							distance = measures[i];
+							degree = i;
+						}
+					}
+					//if no obstacle found, just move forward
+					if(distance == 100){
+						robot.sendCommand("P1.MOVEFW 100");
+						result = input.readLine();
+					} else {	
+						// else turn right to the degree 
+						int obstacle = (int) distance;
+						
+						robot.sendCommand("P1.ROTATERIGHT " + degree);
+						result = input.readLine();
+						
+						robot.sendCommand("P1.MOVEFW " + (obstacle - 15));
+						result = input.readLine();
+						
+						robot.sendCommand("P1.ROTATELEFT 90");
+						result = input.readLine();
+						
+						foundWall2Follow = true;
+					}
+				} else {
+					if(measures[0] < 2 && measures[90] != 100){
+						robot.sendCommand("P1.ROTATELEFT 90");
+						result = input.readLine();
+					} else if(measures[90] != 100){
+						
+						int temp = (int) measures[0];
+						if(measures[0] > 30){ temp = 30; }
+						
+						robot.sendCommand("P1.MOVEFW " + (temp - 1));
+						result = input.readLine();
+						
+					} else if(measures[90] == 100){
+						
+						if(measures[0] < 30){
+							int temp = (int) measures[0];
+							if(temp > 30){ temp = 30; }
+							robot.sendCommand("P1.MOVEFW " + (temp - 1));
+							result = input.readLine();
+							
+						} else {
+							robot.sendCommand("P1.MOVEFW 30");
+							result = input.readLine();
+						}
+						
+						robot.sendCommand("P1.ROTATERIGHT 90");
+						result = input.readLine();
+						
+						int temp = (int) measures[270];
+						if(temp > 30) { temp = 30; }
+						robot.sendCommand("P1.MOVEFW " + (temp - 1));
+						result = input.readLine();
+					}
+				}
 
-				robot.sendCommand("P1.MOVEBW 60");
+/*				robot.sendCommand("P1.MOVEBW 60");
 				result = input.readLine();
 
 				robot.sendCommand("R1.GETPOS");
@@ -193,6 +264,8 @@ public class MobileRobotAI implements Runnable {
 				parseMeasures(result, measures);
 				map.drawLaserScan(position, measures);
 				this.running = false;
+	*/			
+	
 			} catch (IOException ioe) {
 				System.err.println("execution stopped");
 				running = false;
@@ -239,8 +312,7 @@ public class MobileRobotAI implements Runnable {
 					direction = 0;
 				}
 				measures[direction] = distance;
-				// Printing out all the degrees and what it encountered.
-				System.out.println("direction = " + direction + " distance = " + distance);
+				
 			}
 		}
 	}

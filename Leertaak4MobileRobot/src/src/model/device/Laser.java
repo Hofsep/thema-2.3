@@ -243,6 +243,9 @@ public class Laser extends Device {
 			if (distance > -1.0) {
 				scanMeasurements.add(new LaserMeasurement(distance, localPosition.getT()));  // ??????????????
 			}
+			// Printing out the degrees and what it encountered.
+			if(distance !=-1)
+			System.out.println("distance of obstacle = " + distance);
 		}
 	}
 }
