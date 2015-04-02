@@ -52,7 +52,7 @@ public class MobileRobotAI implements Runnable {
 		int degree;				// save the degree robot is scanning
 		
 		
-		while (running) {
+		while (map.mapDiscovered()) {
 			try {
 
 				PipedInputStream pipeIn = new PipedInputStream();
