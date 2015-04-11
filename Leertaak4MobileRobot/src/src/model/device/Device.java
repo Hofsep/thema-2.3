@@ -15,11 +15,12 @@ import src.model.environment.Environment;
 import src.model.environment.Position;
 import src.model.robot.MobileRobot;
 
+import java.awt.geom.Point2D;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Polygon;
 import java.awt.Color;
-
 import java.io.PrintWriter;
-
 import java.util.ArrayList;
 
 public abstract class Device implements Runnable {
@@ -51,6 +52,8 @@ public abstract class Device implements Runnable {
 	protected boolean executingCommand;
 
 	private PrintWriter output;
+	
+	protected long delay = 2;
 
 	// the constructor
 	protected Device(String name, MobileRobot robot, Position local, Environment environment) {
@@ -76,6 +79,28 @@ public abstract class Device implements Runnable {
 	protected void addPoint(int x, int y) {
 		shape.addPoint(x, y);
 	}
+	
+	 // draws the device's geometric shape on the graphical interface
+    public void paint(Graphics g) {
+            // reads the robot's current position
+            robot.readPosition(robotPosition);
+            // draws the shape
+            Polygon globalShape = new Polygon();
+            Point2D point = new Point2D.Double();
+            for(int i=0; i < shape.npoints; i++) {
+                    point.setLocation(shape.xpoints[i], shape.ypoints[i]);
+                    // calculates the coordinates of the point according to the local position
+                    localPosition.rotateAroundAxis(point);
+                    // calculates the coordinates of the point according to the robot position
+                    robotPosition.rotateAroundAxis(point);
+                    // adds the point to the global shape
+                    globalShape.addPoint((int)Math.round(point.getX()),(int)Math.round(point.getY()));
+            }
+            ((Graphics2D) g).setColor(backgroundColor);
+            ((Graphics2D) g).fillPolygon(globalShape);
+            ((Graphics2D) g).setColor(foregroundColor);
+            ((Graphics2D) g).drawPolygon(globalShape);
+    }
 
 
 	public boolean sendCommand(String command) {
